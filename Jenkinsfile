@@ -1,10 +1,6 @@
 pipeline {
     agent any
     
-    tools {
-        maven 'M3'
-    }
-    
     stages {
         stage('Checkout') {
             steps {
@@ -14,7 +10,7 @@ pipeline {
         
         stage('Build') {
             steps {
-                sh 'mvn clean package -DskipTests'
+                sh './mvnw clean package -DskipTests'
             }
         }
         
@@ -34,12 +30,6 @@ pipeline {
                     sh 'docker run -d -p 8081:8081 --name spring-boot-app spring-boot-demo:${env.BUILD_ID}'
                 }
             }
-        }
-    }
-    
-    post {
-        always {
-            echo 'Pipeline completed!'
         }
     }
 }
